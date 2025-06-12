@@ -6,17 +6,15 @@ import { TodoItem } from '../TodoItem';
 type Props = {
   todos: Todo[];
   tempTodo: Todo | null;
-  todoToDeleteId: number | null;
   onTodoDelete: (todoId: number) => void;
-  todosToDeleteId: number[];
+  todoToDeleteIds: number[];
 };
 
 export const TodoList: React.FC<Props> = ({
   todos,
   tempTodo,
-  todoToDeleteId,
   onTodoDelete,
-  todosToDeleteId,
+  todoToDeleteIds,
 }) => {
   return (
     <section className="todoapp__main" data-cy="TodoList">
@@ -24,9 +22,8 @@ export const TodoList: React.FC<Props> = ({
         <TodoItem
           key={todo.id}
           todo={todo}
-          todoToDeleteId={todoToDeleteId}
           onTodoDelete={onTodoDelete}
-          todosToDeleteId={todosToDeleteId}
+          todoToDeleteIds={todoToDeleteIds}
         />
       ))}
       {tempTodo && <TodoItem todo={tempTodo} isTempTodo={true} />}

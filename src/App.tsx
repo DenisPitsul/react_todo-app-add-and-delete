@@ -19,10 +19,9 @@ export const App: React.FC = () => {
     onAddTodo,
     isAddTodoFormFocused,
     setIsAddTodoFormFocused,
-    todoToDeleteId,
     onTodoDelete,
     onClearCompletedTodos,
-    todosToDeleteId,
+    todoToDeleteIds,
   } = useTodoList();
   const {
     statusFilter,
@@ -51,9 +50,8 @@ export const App: React.FC = () => {
         <TodoList
           todos={filteredTodos}
           tempTodo={tempTodo}
-          todoToDeleteId={todoToDeleteId}
           onTodoDelete={onTodoDelete}
-          todosToDeleteId={todosToDeleteId}
+          todoToDeleteIds={todoToDeleteIds}
         />
 
         {todos.length > 0 && (

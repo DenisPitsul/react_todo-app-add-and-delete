@@ -11,8 +11,7 @@ export const useTodoList = () => {
   );
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
   const [isAddTodoFormFocused, setIsAddTodoFormFocused] = useState(false);
-  const [todoToDeleteId, setTodoToDeleteId] = useState<number | null>(null);
-  const [todosToDeleteId, setTodosToDeleteId] = useState<number[]>([]);
+  const [todoToDeleteIds, setTodoToDeleteIds] = useState<number[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -55,7 +54,7 @@ export const useTodoList = () => {
   };
 
   const onTodoDelete = (todoId: number) => {
-    setTodoToDeleteId(todoId);
+    setTodoToDeleteIds(prev => [...prev, todoId]);
 
     todoService
       .deleteTodo(todoId)
@@ -68,7 +67,7 @@ export const useTodoList = () => {
         setErrorMessage(ErrorMessage.OnDelete);
       })
       .finally(() => {
-        setTodoToDeleteId(null);
+        setTodoToDeleteIds(current => [...current, todoId]);
         setIsAddTodoFormFocused(true);
       });
   };
@@ -78,7 +77,7 @@ export const useTodoList = () => {
       .filter(todo => todo.completed)
       .map(todo => todo.id);
 
-    setTodosToDeleteId(() => [...allCompletedTodoIds]);
+    setTodoToDeleteIds(current => [...current, ...allCompletedTodoIds]);
 
     Promise.allSettled(
       allCompletedTodoIds.map(id => todoService.deleteTodo(id).then(() => id)),
@@ -101,7 +100,7 @@ export const useTodoList = () => {
         );
       })
       .finally(() => {
-        setTodosToDeleteId([]);
+        setTodoToDeleteIds([]);
         setIsAddTodoFormFocused(true);
       });
   };
@@ -117,9 +116,8 @@ export const useTodoList = () => {
     onAddTodo,
     isAddTodoFormFocused,
     setIsAddTodoFormFocused,
-    todoToDeleteId,
     onTodoDelete,
     onClearCompletedTodos,
-    todosToDeleteId,
+    todoToDeleteIds,
   };
 };

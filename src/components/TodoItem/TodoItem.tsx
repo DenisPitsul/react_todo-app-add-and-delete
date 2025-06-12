@@ -6,24 +6,18 @@ import { Todo } from '../../types/todo/Todo';
 type Props = {
   todo: Todo;
   isTempTodo?: boolean;
-  todoToDeleteId?: number | null;
   onTodoDelete?: (todoId: number) => void;
-  todosToDeleteId?: number[];
+  todoToDeleteIds?: number[];
 };
 
 export const TodoItem: React.FC<Props> = ({
   todo,
   isTempTodo = false,
-  todoToDeleteId,
   onTodoDelete,
-  todosToDeleteId,
+  todoToDeleteIds,
 }) => {
   const isLoaderVisible = (todoId: number) => {
-    return (
-      isTempTodo ||
-      todoToDeleteId === todo.id ||
-      todosToDeleteId?.includes(todoId)
-    );
+    return isTempTodo || todoToDeleteIds?.includes(todoId);
   };
 
   return (
