@@ -5,9 +5,27 @@ import { Todo } from '../../types/todo/Todo';
 
 type Props = {
   todo: Todo;
+  isTempTodo?: boolean;
+  todoToDeleteId?: number | null;
+  onTodoDelete?: (todoId: number) => void;
+  todosToDeleteId?: number[];
 };
 
-export const TodoItem: React.FC<Props> = ({ todo }) => {
+export const TodoItem: React.FC<Props> = ({
+  todo,
+  isTempTodo = false,
+  todoToDeleteId,
+  onTodoDelete,
+  todosToDeleteId,
+}) => {
+  const isLoaderVisible = (todoId: number) => {
+    return (
+      isTempTodo ||
+      todoToDeleteId === todo.id ||
+      todosToDeleteId?.includes(todoId)
+    );
+  };
+
   return (
     <div data-cy="Todo" className={cn('todo', { completed: todo.completed })}>
       <label className="todo__status-label">
@@ -24,13 +42,27 @@ export const TodoItem: React.FC<Props> = ({ todo }) => {
         {todo.title}
       </span>
 
-      {/* Remove button appears only on hover */}
-      <button type="button" className="todo__remove" data-cy="TodoDelete">
+      <button
+        type="button"
+        className="todo__remove"
+        data-cy="TodoDelete"
+        onClick={() => {
+          if (onTodoDelete) {
+            onTodoDelete(todo.id);
+          }
+        }}
+        disabled={isTempTodo}
+      >
         ×
       </button>
 
       {/* overlay will cover the todo while it is being deleted or updated */}
-      <div data-cy="TodoLoader" className="modal overlay">
+      <div
+        data-cy="TodoLoader"
+        className={cn('modal', 'overlay', {
+          'is-active': isLoaderVisible(todo.id),
+        })}
+      >
         <div className="modal-background has-background-white-ter" />
         <div className="loader" />
       </div>

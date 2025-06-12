@@ -6,12 +6,16 @@ type Props = {
   activeTodosCount: number;
   statusFilter: StatusFilter;
   onStatusFilterChange: (statusFilter: StatusFilter) => void;
+  isThereAtLeastOneCompletedTodo: boolean;
+  onClearCompletedTodos: () => void;
 };
 
 export const Footer: React.FC<Props> = ({
   activeTodosCount,
   statusFilter,
   onStatusFilterChange,
+  isThereAtLeastOneCompletedTodo,
+  onClearCompletedTodos,
 }) => {
   const getHref = (filter: StatusFilter) => {
     switch (filter) {
@@ -46,11 +50,12 @@ export const Footer: React.FC<Props> = ({
         ))}
       </nav>
 
-      {/* this button should be disabled if there are no completed todos */}
       <button
         type="button"
         className="todoapp__clear-completed"
         data-cy="ClearCompletedButton"
+        disabled={!isThereAtLeastOneCompletedTodo}
+        onClick={() => onClearCompletedTodos()}
       >
         Clear completed
       </button>
