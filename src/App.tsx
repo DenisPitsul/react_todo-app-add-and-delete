@@ -48,7 +48,7 @@ export const App: React.FC = () => {
           setIsAddTodoFormFocused={setIsAddTodoFormFocused}
         />
 
-        {!isTodosLoading && (
+        {!isTodosLoading && Boolean(todos.length) && (
           <>
             <TodoList
               todos={filteredTodos}
@@ -57,15 +57,13 @@ export const App: React.FC = () => {
               todoToDeleteIds={todoToDeleteIds}
             />
 
-            {Boolean(todos.length) && (
-              <Footer
-                activeTodosCount={activeItemsCount}
-                statusFilter={statusFilter}
-                onStatusFilterChange={setStatusFilter}
-                isThereAtLeastOneCompletedTodo={isThereAtLeastOneCompletedTodo}
-                onClearCompletedTodos={onClearCompletedTodos}
-              />
-            )}
+            <Footer
+              activeTodosCount={activeItemsCount}
+              statusFilter={statusFilter}
+              onStatusFilterChange={setStatusFilter}
+              isThereAtLeastOneCompletedTodo={isThereAtLeastOneCompletedTodo}
+              onClearCompletedTodos={onClearCompletedTodos}
+            />
           </>
         )}
       </div>
