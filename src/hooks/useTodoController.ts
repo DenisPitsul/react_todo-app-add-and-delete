@@ -72,7 +72,7 @@ export const useTodoController = () => {
         setErrorMessage(ErrorMessage.OnDelete);
       })
       .finally(() => {
-        setTodoToDeleteIds(current => current.filter(id => id === todoId));
+        setTodoToDeleteIds(current => current.filter(id => id !== todoId));
         setIsAddTodoFormFocused(true);
       });
   };
