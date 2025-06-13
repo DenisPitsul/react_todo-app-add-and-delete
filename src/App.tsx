@@ -49,22 +49,24 @@ export const App: React.FC = () => {
         />
 
         {!isTodosLoading && (
-          <TodoList
-            todos={filteredTodos}
-            tempTodo={tempTodo}
-            onTodoDelete={onTodoDelete}
-            todoToDeleteIds={todoToDeleteIds}
-          />
-        )}
+          <>
+            <TodoList
+              todos={filteredTodos}
+              tempTodo={tempTodo}
+              onTodoDelete={onTodoDelete}
+              todoToDeleteIds={todoToDeleteIds}
+            />
 
-        {todos.length > 0 && (
-          <Footer
-            activeTodosCount={activeItemsCount}
-            statusFilter={statusFilter}
-            onStatusFilterChange={setStatusFilter}
-            isThereAtLeastOneCompletedTodo={isThereAtLeastOneCompletedTodo}
-            onClearCompletedTodos={onClearCompletedTodos}
-          />
+            {Boolean(todos.length) && (
+              <Footer
+                activeTodosCount={activeItemsCount}
+                statusFilter={statusFilter}
+                onStatusFilterChange={setStatusFilter}
+                isThereAtLeastOneCompletedTodo={isThereAtLeastOneCompletedTodo}
+                onClearCompletedTodos={onClearCompletedTodos}
+              />
+            )}
+          </>
         )}
       </div>
 
