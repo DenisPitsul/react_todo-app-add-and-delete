@@ -54,7 +54,7 @@ export const useTodoList = () => {
   };
 
   const onTodoDelete = (todoId: number) => {
-    setTodoToDeleteIds(prev => [...prev, todoId]);
+    setTodoToDeleteIds(current => [...current, todoId]);
 
     todoService
       .deleteTodo(todoId)
@@ -67,7 +67,7 @@ export const useTodoList = () => {
         setErrorMessage(ErrorMessage.OnDelete);
       })
       .finally(() => {
-        setTodoToDeleteIds(current => [...current, todoId]);
+        setTodoToDeleteIds(current => current.filter(id => id === todoId));
         setIsAddTodoFormFocused(true);
       });
   };
