@@ -15,7 +15,7 @@ export const AddTodoForm: React.FC<Props> = ({
   setIsAddTodoFormFocused,
 }) => {
   const [todoTitle, setTodoTitle] = useState('');
-  const [isInputDisabled, setIsInputDisabled] = useState(false);
+  const [isIsLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -38,14 +38,14 @@ export const AddTodoForm: React.FC<Props> = ({
       return;
     }
 
-    setIsInputDisabled(true);
+    setIsLoading(true);
     onAdd(todoTitle.trim())
       .then(() => {
         setTodoTitle('');
       })
       .catch(() => {})
       .finally(() => {
-        setIsInputDisabled(false);
+        setIsLoading(false);
         requestAnimationFrame(() => {
           inputRef.current?.focus();
         });
@@ -62,7 +62,7 @@ export const AddTodoForm: React.FC<Props> = ({
         placeholder="What needs to be done?"
         value={todoTitle}
         onChange={event => setTodoTitle(event.target.value.trimStart())}
-        disabled={isInputDisabled}
+        disabled={isIsLoading}
       />
     </form>
   );

@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Todo } from '../types/todo/Todo';
 import * as todoService from '../api/todos';
 import { ErrorMessage } from '../enums/errorMessage';
+import { StatusFilter } from '../enums/statusFilter';
+import { getFilteredTodos } from '../utils/getFilteredTodos';
 
-export const useTodoList = () => {
+export const useTodoController = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isTodosLoading, setIsTodosLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<ErrorMessage>(
@@ -12,6 +14,9 @@ export const useTodoList = () => {
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
   const [isAddTodoFormFocused, setIsAddTodoFormFocused] = useState(false);
   const [todoToDeleteIds, setTodoToDeleteIds] = useState<number[]>([]);
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>(
+    StatusFilter.All,
+  );
 
   useEffect(() => {
     setIsTodosLoading(true);
@@ -105,6 +110,18 @@ export const useTodoList = () => {
       });
   };
 
+  const filteredTodos = useMemo(() => {
+    return getFilteredTodos(todos, statusFilter);
+  }, [todos, statusFilter]);
+
+  const activeItemsCount = useMemo(() => {
+    return todos.filter(todo => !todo.completed).length;
+  }, [todos]);
+
+  const isThereAtLeastOneCompletedTodo = useMemo(() => {
+    return todos.some(todo => todo.completed);
+  }, [todos]);
+
   return {
     todos,
     setTodos,
@@ -118,5 +135,10 @@ export const useTodoList = () => {
     onTodoDelete,
     onClearCompletedTodos,
     todoToDeleteIds,
+    statusFilter,
+    setStatusFilter,
+    filteredTodos,
+    activeItemsCount,
+    isThereAtLeastOneCompletedTodo,
   };
 };

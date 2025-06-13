@@ -6,9 +6,8 @@ import { USER_ID } from './api/todos';
 import { TodoList } from './components/TodoList';
 import { ErrorComponent } from './components/ErrorComponent';
 import { Footer } from './components/Footer';
-import { useTodosFilter } from './hooks/useTodosFilter';
 import { Header } from './components/Header';
-import { useTodoList } from './hooks/useTodoList';
+import { useTodoController } from './hooks/useTodoController';
 
 export const App: React.FC = () => {
   const {
@@ -23,14 +22,12 @@ export const App: React.FC = () => {
     onTodoDelete,
     onClearCompletedTodos,
     todoToDeleteIds,
-  } = useTodoList();
-  const {
     statusFilter,
     setStatusFilter,
     filteredTodos,
     activeItemsCount,
     isThereAtLeastOneCompletedTodo,
-  } = useTodosFilter(todos);
+  } = useTodoController();
 
   if (!USER_ID) {
     return <UserWarning />;
