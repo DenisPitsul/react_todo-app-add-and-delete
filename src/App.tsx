@@ -13,6 +13,7 @@ import { useTodoList } from './hooks/useTodoList';
 export const App: React.FC = () => {
   const {
     todos,
+    isTodosLoading,
     errorMessage,
     setErrorMessage,
     tempTodo,
@@ -47,12 +48,14 @@ export const App: React.FC = () => {
           setIsAddTodoFormFocused={setIsAddTodoFormFocused}
         />
 
-        <TodoList
-          todos={filteredTodos}
-          tempTodo={tempTodo}
-          onTodoDelete={onTodoDelete}
-          todoToDeleteIds={todoToDeleteIds}
-        />
+        {!isTodosLoading && (
+          <TodoList
+            todos={filteredTodos}
+            tempTodo={tempTodo}
+            onTodoDelete={onTodoDelete}
+            todoToDeleteIds={todoToDeleteIds}
+          />
+        )}
 
         {todos.length > 0 && (
           <Footer

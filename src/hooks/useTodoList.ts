@@ -5,7 +5,7 @@ import { ErrorMessage } from '../enums/errorMessage';
 
 export const useTodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isTodosLoading, setIsTodosLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<ErrorMessage>(
     ErrorMessage.None,
   );
@@ -14,14 +14,14 @@ export const useTodoList = () => {
   const [todoToDeleteIds, setTodoToDeleteIds] = useState<number[]>([]);
 
   useEffect(() => {
-    setIsLoading(true);
+    setIsTodosLoading(true);
     todoService
       .getTodos()
       .then(setTodos)
       .catch(() => {
         setErrorMessage(ErrorMessage.OnLoad);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsTodosLoading(false));
   }, []);
 
   const onAddTodo = (todoTitle: string) => {
@@ -108,8 +108,7 @@ export const useTodoList = () => {
   return {
     todos,
     setTodos,
-    isLoading,
-    setIsLoading,
+    isTodosLoading,
     errorMessage,
     setErrorMessage,
     tempTodo,
